@@ -1,0 +1,11 @@
+{
+    "name": "Ronda",
+    "alias": "ronda",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Ronda\\Providers\\RondaServiceProvider"
+    ],
+    "files": []
+}

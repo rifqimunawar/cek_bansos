@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/ronda",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Ronda\\": "app/",
+            "Modules\\Ronda\\Database\\Factories\\": "database/factories/",
+            "Modules\\Ronda\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Ronda\\Tests\\": "tests/"
+        }
+    }
+}

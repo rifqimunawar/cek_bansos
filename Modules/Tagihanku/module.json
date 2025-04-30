@@ -1,0 +1,11 @@
+{
+    "name": "Tagihanku",
+    "alias": "tagihanku",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Tagihanku\\Providers\\TagihankuServiceProvider"
+    ],
+    "files": []
+}

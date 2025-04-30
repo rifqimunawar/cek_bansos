@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/keluarga",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Keluarga\\": "app/",
+            "Modules\\Keluarga\\Database\\Factories\\": "database/factories/",
+            "Modules\\Keluarga\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Keluarga\\Tests\\": "tests/"
+        }
+    }
+}

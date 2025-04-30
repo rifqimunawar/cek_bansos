@@ -1,0 +1,11 @@
+{
+    "name": "Keluarga",
+    "alias": "keluarga",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Keluarga\\Providers\\KeluargaServiceProvider"
+    ],
+    "files": []
+}

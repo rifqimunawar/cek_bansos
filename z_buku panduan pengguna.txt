@@ -1,0 +1,14 @@
+cara menjalankan sistem
+php artisan serve
+
+di terminal lain masuk ke flas_app
+aktifkan virtual environment
+jika menggunakan git bash
+
+cd flask_app
+
+source venv/Scripts/activate
+
+pip install flask
+
+python app.py

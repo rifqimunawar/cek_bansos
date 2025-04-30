@@ -1,0 +1,18 @@
+{
+    "Settings": true,
+    "Users": true,
+    "Auth": true,
+    "Dashboard": true,
+    "Profile": true,
+    "Master": true,
+    "Register": true,
+    "Tagihan": true,
+    "Ronda": true,
+    "Pembayaran": true,
+    "Laporan": true,
+    "Mobile": true,
+    "Tagihanku": true,
+    "Keluarga": true,
+    "SimpanSurat": true,
+    "BuatSurat": true
+}
