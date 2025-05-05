@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthController extends Controller
@@ -42,6 +43,7 @@ class AuthController extends Controller
 
     if (Auth::attempt($credentials)) {
       // Authentication passed...
+
       Alert::success('Success', 'Selamat datang!!');
       return redirect()->intended('/');
     } else {

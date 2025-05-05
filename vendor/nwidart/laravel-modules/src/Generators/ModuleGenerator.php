@@ -53,7 +53,6 @@ class ModuleGenerator extends Generator
     /**
      * The module instance.
      */
-    /*?Module*/
     protected mixed $module = null;
 
     /**
@@ -545,6 +544,11 @@ class ModuleGenerator extends Generator
     protected function getLowerNameReplacement(): string
     {
         return strtolower($this->getName());
+    }
+
+    protected function getKebabNameReplacement(): string
+    {
+        return Str::kebab($this->getName());
     }
 
     /**

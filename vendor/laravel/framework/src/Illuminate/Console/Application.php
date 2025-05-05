@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
+use function Illuminate\Support\artisan_binary;
 use function Illuminate\Support\php_binary;
 
 class Application extends SymfonyApplication implements ApplicationContract
@@ -62,7 +63,6 @@ class Application extends SymfonyApplication implements ApplicationContract
      * @param  \Illuminate\Contracts\Container\Container  $laravel
      * @param  \Illuminate\Contracts\Events\Dispatcher  $events
      * @param  string  $version
-     * @return void
      */
     public function __construct(Container $laravel, Dispatcher $events, $version)
     {
@@ -95,7 +95,7 @@ class Application extends SymfonyApplication implements ApplicationContract
      */
     public static function artisanBinary()
     {
-        return ProcessUtils::escapeArgument(defined('ARTISAN_BINARY') ? ARTISAN_BINARY : 'artisan');
+        return ProcessUtils::escapeArgument(artisan_binary());
     }
 
     /**
@@ -199,8 +199,8 @@ class Application extends SymfonyApplication implements ApplicationContract
     public function output()
     {
         return $this->lastOutput && method_exists($this->lastOutput, 'fetch')
-                        ? $this->lastOutput->fetch()
-                        : '';
+            ? $this->lastOutput->fetch()
+            : '';
     }
 
     /**

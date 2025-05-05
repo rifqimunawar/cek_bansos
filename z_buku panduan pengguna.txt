@@ -1,14 +1,21 @@
-cara menjalankan sistem
+###import di blade
+@php
+  use App\Helpers\Fungsi;
+  use app\Helpers\GetSettings;
+@endphp
+
+
+## cara menjalankan sistem
 php artisan serve
 
-di terminal lain masuk ke flas_app
+di terminal lain masuk ke flask_app
 aktifkan virtual environment
 jika menggunakan git bash
 
 cd flask_app
-
 source venv/Scripts/activate
-
 pip install flask
-
 python app.py
+
+untuk menonaktifkan
+deactivate

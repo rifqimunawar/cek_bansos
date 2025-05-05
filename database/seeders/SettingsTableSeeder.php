@@ -22,12 +22,12 @@ class SettingsTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
-                'name' => 'Arsip Qhopes',
-                'alamat' => 'Perum Ananda Dawuan Blok B No. 7 Dawuan - Cirebon',
-                'email' => 'info@qhopes.id',
+                'name' => 'Desa Terpadu',
+                'alamat' => 'Desa Terpadu',
+                'email' => 'desaterpadu@gmail.com',
                 'phone' => '085161145097',
                 'base_url' => 'http://127.0.0.1:8000/',
-                'logo' => 'logo_-1745312749.png',
+                'logo' => 'logo_-1746439630.png',
                 'favicon' => NULL,
                 'description' => NULL,
                 'social_facebook' => NULL,
@@ -35,7 +35,7 @@ class SettingsTableSeeder extends Seeder
                 'social_instagram' => NULL,
                 'deleted_at' => NULL,
                 'created_at' => NULL,
-                'updated_at' => '2025-04-23 13:59:56',
+                'updated_at' => '2025-05-05 17:07:10',
             ),
         ));
         

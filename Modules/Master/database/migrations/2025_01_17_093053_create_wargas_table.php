@@ -26,6 +26,7 @@ return new class extends Migration {
       $table->string('pekerjaan')->nullable();
       $table->string('status_perkawinan')->nullable();
       $table->string('status_keluarga')->nullable();
+      $table->string('bantuan_sosial')->nullable();
 
       $table->string('created_by')->default('unknown');
       $table->string('updated_by')->default('unknown');

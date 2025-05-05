@@ -6,6 +6,7 @@ use App\Helpers\Fungsi;
 use Illuminate\Http\Request;
 use Modules\Settings\Models\Menu;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\Settings\Models\Settings;
 use RealRashid\SweetAlert\Facades\Alert;
 

@@ -12,6 +12,7 @@ use Modules\Master\Models\Periode;
 use Modules\Master\Models\Provinsi;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Master\Exports\WargaExport;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -40,12 +41,10 @@ class WargaController extends Controller
     Fungsi::hakAkses('/master/warga');
 
     $title = "Warga Baru";
-    $data['provinsi'] = Provinsi::all();
     return view(
       'master::warga/create',
       [
         'title' => $title,
-        'data' => $data,
       ]
     );
   }
@@ -66,13 +65,35 @@ class WargaController extends Controller
 
   public function store(Request $request)
   {
+
+    // Validasi input
+    $validatedData = $request->validate([
+      'status_perkawinan' => 'required|integer|in:1,2,3,4',
+      'tgl_lahir' => 'required|date|before:today',
+      'pendapatan' => 'required|numeric|min:0',
+      'pendidikan' => 'required|integer|between:1,6',
+      'pekerjaan' => 'required|integer|between:1,20'
+    ]);
+
+    $data_cek_bansos = [
+      'status_perkawinan' => (int) $validatedData['status_perkawinan'],
+      'tgl_lahir' => $validatedData['tgl_lahir'],
+      'pendapatan' => (int) $validatedData['pendapatan'],
+      'pendidikan' => (int) $validatedData['pendidikan'],
+      'pekerjaan' => (int) $validatedData['pekerjaan']
+    ];
+
+    // Kirim data ke API Python
+    $response = Http::post('http://localhost:5000/cek_bansos', $data_cek_bansos);
+
     $data = $request->all();
 
-    if ($request->hasFile('img')) {
-      $extension = $request->img->getClientOriginalExtension();
-      $newFileName = 'img' . '_' . now()->timestamp . '.' . $extension;
-      $request->file('img')->move(public_path('/img'), $newFileName);
-      $data['img'] = $newFileName;
+    // Ambil hasil prediksi
+    if ($response->successful()) {
+      $hasil = $response->json();
+      $data['bantuan_sosial'] = $hasil['bantuan_sosial'];
+    } else {
+      $data['bantuan_sosial'] = 'API Gagal';
     }
 
     if (!empty($request->id)) {
@@ -80,67 +101,14 @@ class WargaController extends Controller
       $data['updated_by'] = Auth::user()->username;
       $updateData->update($data);
       Alert::success('Success', 'Data berhasil diupdate');
-      return redirect()->route('klasifikasi.index');
+      return redirect()->route('warga.index');
     }
 
     $data['created_by'] = Auth::user()->username;
     Warga::create($data);
     Alert::success('Success', 'Data berhasil disimpan');
-    return redirect()->route('klasifikasi.index');
+    return redirect()->route('warga.index');
   }
-
-
-  // public function store(Request $request)
-  // {
-  //   $data = $request->all();
-
-  //   if ($request->hasFile('img')) {
-  //     $extension = $request->img->getClientOriginalExtension();
-  //     $newFileName = 'warga' . '_' . now()->timestamp . '.' . $extension;
-  //     $request->file('img')->move(public_path('/img'), $newFileName);
-  //     $data['img'] = $newFileName;
-  //   }
-
-  //   if (!empty($request->id)) {
-  //     $updateData = Warga::findOrFail($request->id);
-  //     $data['updated_by'] = Auth::user()->username;
-  //     $updateData->update($data);
-
-  //     // **Hapus Data Lama di Pivot**
-  //     DB::table('warga_tagihan_periode')->where('warga_id', $updateData->id)->delete();
-
-  //     $wargaId = $updateData->id;
-  //   } else {
-  //     $data['created_by'] = Auth::user()->username;
-  //     $warga = Warga::create($data);
-  //     $wargaId = $warga->id;
-  //   }
-
-  //   // **Ambil Periode Aktif dan Semua Tagihan Umum**
-  //   $periodeList = Periode::where('tanggal_awal', '>=', now()->startOfMonth())->get();
-  //   $tagihanList = Umum::all();
-
-  //   // **Simpan ke Tabel Pivot**
-  //   $pivotData = [];
-  //   foreach ($periodeList as $periode) {
-  //     foreach ($tagihanList as $tagihan) {
-  //       $pivotData[] = [
-  //         'warga_id' => $wargaId,
-  //         'umum_id' => $tagihan->id,
-  //         'periode_id' => $periode->id,
-  //         'created_at' => now(),
-  //         'updated_at' => now(),
-  //       ];
-  //     }
-  //   }
-
-  //   if (!empty($pivotData)) {
-  //     // DB::table('warga_tagihan_periode')->insert($pivotData);
-  //   }
-
-  //   Alert::success('Success', 'Data warga berhasil ' . (!empty($request->id) ? 'diupdate' : 'disimpan'));
-  //   return redirect()->route('warga.index');
-  // }
 
   public function destroy($id)
   {

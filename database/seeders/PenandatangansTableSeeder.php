@@ -42,10 +42,10 @@ class PenandatangansTableSeeder extends Seeder
                 'signature_file' => 'img/signature/d5c033b7-5756-471b-a589-3c779b3a0908.png',
                 'created_by' => 'admin',
                 'updated_by' => 'unknown',
-                'deleted_by' => 'admin',
-                'deleted_at' => '2025-04-29 15:15:55',
+                'deleted_by' => NULL,
+                'deleted_at' => NULL,
                 'created_at' => '2025-04-29 10:16:50',
-                'updated_at' => '2025-04-29 15:15:55',
+                'updated_at' => '2025-04-29 10:16:50',
             ),
         ));
         

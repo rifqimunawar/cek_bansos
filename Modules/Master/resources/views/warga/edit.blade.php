@@ -31,7 +31,7 @@
 
                 <div class="form-group mb-2">
                   <label for="status_perkawinan">Status Perkawinan</label>
-                  <select class="form-select" name="status_perkawinan" aria-label="Default select example">
+                  <select required class="form-select" name="status_perkawinan" aria-label="Default select example">
                     <option disabled selected> - pilih - </option>
                     <option value="1" {{ $data->status_perkawinan == '1' ? 'selected' : '' }}>
                       Belum Menikah</option>
@@ -97,7 +97,7 @@
 
                 <div class="form-group mb-2">
                   <label for="pendidikan">Pendidikan</label>
-                  <select class="form-select" name="pendidikan" aria-label="Default select example">
+                  <select class="form-select" required name="pendidikan" aria-label="Default select example">
                     <option disabled selected> - pilih - </option>
                     <option value="1" {{ $data->pendidikan == '1' ? 'selected' : '' }}>SD/Sederajat
                     </option>
@@ -153,6 +153,21 @@
                   </select>
                 </div>
 
+                <div class="form-group mb-2">
+                  <label for="pendapatan">Nominal Pendapatan</label>
+                  <input type="text" class="form-control" name="pendapatan" required id="nominalPendapatan"
+                    placeholder="pendapatan" value="{{ $data->pendapatan ?? 0 }}" />
+                </div>
+                @if ($errors->any())
+                  <div class="alert alert-danger">
+                    <ul class="mb-0">
+                      @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                      @endforeach
+                    </ul>
+                  </div>
+                @endif
+
                 <div class="card-action">
                   <input type="hidden" name="id" value="{{ $data->id }}">
                   <button class="btn btn-success btn-sm" type="submit">Simpan</button>
@@ -167,4 +182,28 @@
       </div>
     </div>
   </div>
+  <script>
+    function numberInput(input) {
+      input.value = input.value.replace(/[^0-9]/g, '');
+    }
+
+    const inputNominal = document.getElementById('nominalPendapatan');
+    inputNominal.addEventListener('input', function(e) {
+      let value = this.value.replace(/[^0-9]/g, '');
+      if (value) {
+        this.value = formatRupiah(value);
+      } else {
+        this.value = '';
+      }
+    });
+
+    inputNominal.form.addEventListener('submit', function() {
+      let value = inputNominal.value.replace(/[^0-9]/g, '');
+      inputNominal.value = value;
+    });
+
+    function formatRupiah(angka) {
+      return 'Rp. ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+  </script>
 @endsection

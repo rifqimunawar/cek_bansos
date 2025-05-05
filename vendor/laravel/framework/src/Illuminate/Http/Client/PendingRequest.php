@@ -220,7 +220,6 @@ class PendingRequest
      *
      * @param  \Illuminate\Http\Client\Factory|null  $factory
      * @param  array  $middleware
-     * @return void
      */
     public function __construct(?Factory $factory = null, $middleware = [])
     {
@@ -794,7 +793,7 @@ class PendingRequest
      * Issue a POST request to the given URL.
      *
      * @param  string  $url
-     * @param  array  $data
+     * @param  array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable  $data
      * @return \Illuminate\Http\Client\Response
      *
      * @throws \Illuminate\Http\Client\ConnectionException
@@ -810,7 +809,7 @@ class PendingRequest
      * Issue a PATCH request to the given URL.
      *
      * @param  string  $url
-     * @param  array  $data
+     * @param  array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable  $data
      * @return \Illuminate\Http\Client\Response
      *
      * @throws \Illuminate\Http\Client\ConnectionException
@@ -826,7 +825,7 @@ class PendingRequest
      * Issue a PUT request to the given URL.
      *
      * @param  string  $url
-     * @param  array  $data
+     * @param  array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable  $data
      * @return \Illuminate\Http\Client\Response
      *
      * @throws \Illuminate\Http\Client\ConnectionException
@@ -842,7 +841,7 @@ class PendingRequest
      * Issue a DELETE request to the given URL.
      *
      * @param  string  $url
-     * @param  array  $data
+     * @param  array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable  $data
      * @return \Illuminate\Http\Client\Response
      *
      * @throws \Illuminate\Http\Client\ConnectionException
@@ -911,7 +910,7 @@ class PendingRequest
 
                     if (! $response->successful()) {
                         try {
-                            $shouldRetry = $this->retryWhenCallback ? call_user_func($this->retryWhenCallback, $response->toException(), $this) : true;
+                            $shouldRetry = $this->retryWhenCallback ? call_user_func($this->retryWhenCallback, $response->toException(), $this, $this->request->toPsrRequest()->getMethod()) : true;
                         } catch (Exception $exception) {
                             $shouldRetry = false;
 
@@ -941,14 +940,14 @@ class PendingRequest
                 $exception = new ConnectionException($e->getMessage(), 0, $e);
                 $request = new Request($e->getRequest());
 
-                $this->factory->recordRequestResponsePair($request, null);
+                $this->factory?->recordRequestResponsePair($request, null);
 
                 $this->dispatchConnectionFailedEvent($request, $exception);
 
                 throw $exception;
             }
         }, $this->retryDelay ?? 100, function ($exception) use (&$shouldRetry) {
-            $result = $shouldRetry ?? ($this->retryWhenCallback ? call_user_func($this->retryWhenCallback, $exception, $this) : true);
+            $result = $shouldRetry ?? ($this->retryWhenCallback ? call_user_func($this->retryWhenCallback, $exception, $this, $this->request?->toPsrRequest()->getMethod()) : true);
 
             $shouldRetry = null;
 
@@ -991,13 +990,15 @@ class PendingRequest
             $options[$this->bodyFormat] = $this->pendingBody;
         }
 
-        return (new Collection($options))->map(function ($value, $key) {
-            if ($key === 'json' && $value instanceof JsonSerializable) {
-                return $value;
-            }
+        return (new Collection($options))
+            ->map(function ($value, $key) {
+                if ($key === 'json' && $value instanceof JsonSerializable) {
+                    return $value;
+                }
 
-            return $value instanceof Arrayable ? $value->toArray() : $value;
-        })->all();
+                return $value instanceof Arrayable ? $value->toArray() : $value;
+            })
+            ->all();
     }
 
     /**
@@ -1326,10 +1327,10 @@ class PendingRequest
         return function ($handler) {
             return function ($request, $options) use ($handler) {
                 $response = ($this->stubCallbacks ?? new Collection)
-                     ->map
-                     ->__invoke((new Request($request))->withData($options['laravel_data']), $options)
-                     ->filter()
-                     ->first();
+                    ->map
+                    ->__invoke((new Request($request))->withData($options['laravel_data']), $options)
+                    ->filter()
+                    ->first();
 
                 if (is_null($response)) {
                     if ($this->preventStrayRequests) {

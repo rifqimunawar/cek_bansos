@@ -25,6 +25,14 @@ class Fungsi
 
     return "{$usia->y} tahun {$usia->m} bulan {$usia->d} hari";
   }
+  public static function usiaTahun($tgl_lahir)
+  {
+    $tanggal_lahir = new DateTime($tgl_lahir);
+    $hari_ini = new DateTime();
+    $usia = $tanggal_lahir->diff($hari_ini);
+
+    return "{$usia->y} thn";
+  }
 
   public static function rupiah($angka)
   {

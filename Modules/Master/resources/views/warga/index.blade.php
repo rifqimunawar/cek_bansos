@@ -1,5 +1,8 @@
 @extends('master::layouts.master')
-
+@php
+  use App\Helpers\Fungsi;
+  use app\Helpers\GetSettings;
+@endphp
 @section('module-content')
   <!-- BEGIN panel -->
   <div class="panel panel-inverse">
@@ -50,8 +53,11 @@
           <tr>
             <th width="1%"></th>
             <th class="text-nowrap">Nama</th>
-            <th class="text-nowrap">Alamat</th>
             <th class="text-nowrap">Telpon</th>
+            <th class="text-nowrap">Status</th>
+            <th class="text-nowrap">Usia</th>
+            <th class="text-nowrap">Pendapatan</th>
+            <th class="text-nowrap">Bantuan Sosial</th>
             <th class="text-nowrap"></th>
           </tr>
         </thead>
@@ -60,8 +66,23 @@
             <tr class="odd gradeX">
               <td width="1%" class="fw-bold">{{ $loop->iteration }}</td>
               <td>{{ $item->nama }}</td>
-              <td>{{ $item->alamat ?? '' }}</td>
               <td>{{ $item->telp ?? '' }}</td>
+              <td>
+                @if ($item->status_perkawinan == 1)
+                  Belum Menikah
+                @elseif ($item->status_perkawinan == 2)
+                  Menikah
+                @elseif ($item->status_perkawinan == 3)
+                  Cerai Hidup
+                @elseif ($item->status_perkawinan == 4)
+                  Cerai Mati
+                @else
+                  -
+                @endif
+              </td>
+              <td>{{ Fungsi::usiaTahun($item->tgl_lahir ?? '') }}</td>
+              <td>{{ Fungsi::rupiah($item->pendapatan ?? 0) }}</td>
+              <td>{{ $item->bantuan_sosial ?? '-' }}</td>
               <td>
                 <a href="{{ route('warga.edit', $item->id) }}">
                   <i class="fa fa-pencil-square" style="font-size: 14px; margin-right:5px"></i>
