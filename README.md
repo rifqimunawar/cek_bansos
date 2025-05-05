@@ -7,6 +7,9 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+![cekbansos](https://github.com/user-attachments/assets/efc08e12-cf6e-4fec-a57c-f5fc3feb7de5)
+
+
 # 🧠 Sistem Prediksi Bantuan Sosial
 ![mesin lerning cek bansos](https://github.com/user-attachments/assets/979210ad-e121-4603-a46e-abae40067707)
 
