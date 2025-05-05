@@ -32,3 +32,6 @@ Aplikasi prediksi kelayakan **bantuan sosial** berbasis data warga, menggunakan 
 - Model prediksi memutuskan apakah layak menerima bantuan sosial
 - Hasil prediksi ditampilkan di Laravel (`Ya` / `Tidak`)
 
+![image](https://github.com/user-attachments/assets/7611b78e-bbdc-4b04-9f21-45e4afd38800)
+
+
