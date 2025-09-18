@@ -1,0 +1,11 @@
+{
+    "name": "SimpanSurat",
+    "alias": "simpansurat",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SimpanSurat\\Providers\\SimpanSuratServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,11 @@
+{
+    "Settings": true,
+    "Users": true,
+    "Auth": true,
+    "Dashboard": true,
+    "Profile": true,
+    "Master": true,
+    "Laporan": true,
+    "SimpanSurat": true,
+    "BuatSurat": true
+}
