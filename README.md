@@ -34,4 +34,51 @@ Aplikasi prediksi kelayakan **bantuan sosial** berbasis data warga, menggunakan 
 
 ![image](https://github.com/user-attachments/assets/7611b78e-bbdc-4b04-9f21-45e4afd38800)
 
+## 📥 Instalasi
+
+### 1️⃣ Clone Repository
+`git clone https://github.com/rifqimunawar/cek_bansos.git`
+#### Masuk ke repository
+`cd cek_bansos`
+
+### 2️⃣ Menjalankan Backend (Flask)
+
+Buka terminal pertama:
+`cd flask_cek_bansos`
+
+jalankan python
+`python app.py`
+
+Flask akan berjalan di http://127.0.0.1:5000 (default).
+
+### 3️⃣ Menjalankan Frontend (Laravel)
+
+Buka terminal lain:
+
+```bash
+cd laravel_cek_bansos
+rm composer.lock
+mkdir -p storage/framework/views
+chmod -R 775 storage
+php artisan config:clear 
+php artisan cache:clear 
+php artisan view:clear
+composer install --optimize-autoloader
+cp .env.example .env
+php artisan migrate
+php artisan migrate:refresh --seed
+php artisan serve
+```
+
+
+### 🔑 Login Aplikasi
+```bash
+Username : admin
+Password : admin
+```
+
+
+
+
+
 
